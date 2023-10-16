@@ -42,6 +42,21 @@ int _printf(const char *format, ...)
 
 int print_ch(va_list options)
 {
+	char c = va_list options(options, int);
 
+	return _putchar(c);
+}
+
+int print_str(va_list args)
+{
+	char *str = va_options(options, char *);
+	if (str == NULL)
+		str = "(null)";
+	int count = 0;
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		count += _putchar(str[i]);
+	}
+	return count;
 }
 
