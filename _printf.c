@@ -25,6 +25,30 @@ int _printf(const char *format, ...)
 			}
 			switch (*format)
 			{
+				case 'c':
+					char_count += print_char(args);
+					break;
+				case 's':
+					char_count += print_string(args);
+					break;
+				case '%':
+					char_count += print_percent();
+					break;
+				default:
+					_putchar('%');
+					_putchar(*format);
+					char_count += 2;
+			}
+		}
+		else
+		{
+			char_count += _putchar(*format);
+		}
+		format++;
+	}
+
+	va_end(args);
+	return char_count;
 
 /**
  * print_ch - prints a chaarcter
