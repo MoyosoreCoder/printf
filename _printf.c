@@ -9,7 +9,7 @@
 int _printf(const char *format, ...)
 {
 	va_list options;
-	int count = 0;
+	int ch_count = 0;
 
 	va_start(options, format);
 
@@ -26,36 +26,37 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					char_count += print_char(args);
+					ch_count += print_char(options);
 					break;
 				case 's':
-					char_count += print_string(args);
+					ch_count += print_string(options);
 					break;
 				case '%':
-					char_count += print_percent();
+					ch_count += print_percent();
 					break;
 				default:
 					_putchar('%');
 					_putchar(*format);
-					char_count += 2;
+					ch_count += 2;
 			}
 		}
 		else
 		{
-			char_count += _putchar(*format);
+			ch_count += _putchar(*format);
 		}
 		format++;
 	}
 
-	va_end(args);
-	return char_count;
+	va_end(options);
+	return ((ch_count));
+}
 
 /**
  * print_ch - prints a chaarcter
  * @options: a va_list containing charcter to print
  *
  * Return: the number of characters to ptint
- */
+ n*/
 
 /**
  * print_str -  a function that prints a string
