@@ -9,7 +9,7 @@
 int _printf(const char *format, ...)
 {
 	va_list options;
-	int count = 0, i, j;
+	int count = 0, i;
 
 	va_start(options, format);
 
@@ -64,6 +64,7 @@ int print_ch(va_list options)
 int print_str(va_list options)
 {
 	char *str;
+	int count = 0;
 
 	str = va_arg(options, char *);
 
@@ -71,8 +72,6 @@ int print_str(va_list options)
 	{
 		return (0);
 	}
-
-	int count;
 
 	while (*str)
 	{
