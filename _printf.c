@@ -13,33 +13,22 @@ int _printf(const char *format, ...)
 
 	va_start(options, format);
 
-	for (i = 0; format[i] != '\0'; i++)
+	while (*format)
 	{
-		if (format[i] != '%')
+		if (*format != '%')
 		{
-			count += _putchar(format[i]);
+			_putchar(*format);
+			couunt++;
 		}
 		else
 		{
-			i++;
-
-			switch (format[i])
-			{
-				case 'c':
-					count += print_ch(options);
-					break;
-				case 's':
-					count += print_str(options);
-					break;
-
-				default:
-					count += _putchar('%');
-					count += _putchar(format[i]);
-			}
+			format++;
+			count += process_format_spe(&format, options);
 		}
+		format++;
 	}
-	va_end(options);
-	return (count);
+	va_end (options);
+	return (count - 1);
 }
 /**
  * print_ch - prints a chaarcter
