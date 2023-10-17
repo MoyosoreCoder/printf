@@ -35,9 +35,9 @@ int print_str(va_list options)
 	return (ch_count);
 }
 /**
- * print_percent - a function that prints percent
+ * print_percent - function that prints percent
  *
- * Return: number of characters printed
+ * Return: the number of character printed in an array
  */
 int print_percent(void)
 {
@@ -91,11 +91,31 @@ int _printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			ch_count = handle_case(format, options);
+			format++;
+			if (*format == '\0')
+			{
+				break;
+			}
+			switch (*format)
+			{
+				case 'c':
+					ch_count += print_ch(options);
+					break;
+				case 's':
+					ch_count += print_str(options);
+					break;
+				case '%':
+					ch_count += print_percent();
+					break;
+				default:
+					_putchar('%');
+					_putchar(*format);
+					ch_count += 2;
+			}
 		}
 		else
 		{
-			ch_count += _putchar(*format);
+			ch_count = _putchar(*format);
 		}
 		format++;
 	}

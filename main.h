@@ -6,7 +6,6 @@
 int _printf(const char *format, ...);
 int print_str(va_list options);
 int print_char(va_list options);
-int print_percent(void);
 int _putchar(char c);
 
 
