@@ -44,36 +44,6 @@ int print_percent(void)
 	return (_putchar('%'));
 }
 /**
- * handle_case - handles format specifier for c, s and %
- * @format: the format specifier in the code
- * @options: the va_list containing array of arguments
- *
- * Return: the numbers of characters printed
- */
-int handle_case(const char *format, va_list options)
-{
-	format++;
-
-	if (*format == '\0')
-	{
-		return (0);
-	}
-	switch (*format)
-	{
-		case 'c':
-			return (print_ch(options));
-		case 's':
-			return (print_str(options));
-		case '%':
-			return (print_percent());
-		default:
-			_putchar('%');
-			_putchar(*format);
-			return (2);
-	}
-}
-
-/**
  * _printf - this is a function that formatted string
  * @format: a format string containing format specifier
  *
