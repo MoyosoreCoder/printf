@@ -1,4 +1,27 @@
 #include "main.h"
+int print_char(va_list options)
+{
+	char c = va_arg(options, int);
+	return _putchar(c);
+}
+
+int print_str(va_list options)
+{
+	char *str = va_arg(optins, char *);
+	int ch_count = 0;
+	while (*str)
+	{
+		ch_count += _putchar(*str);
+		str++;
+	}
+	return char_count;
+}
+
+int print_percent()
+{
+	return _putchar('%');
+}
+
 
 /**
  * _printf - this is a function that formatted string
@@ -25,6 +48,7 @@ int _printf(const char *format, ...)
 			}
 			switch (*format)
 			{
+				
 				case 'c':
 					ch_count += print_char(options);
 					break;
