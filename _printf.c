@@ -1,23 +1,29 @@
 #include "main.h"
-int print_char(va_list options)
+int print_ch(va_list options)
 {
-	char c = va_arg(options, int);
+	char c;
+	c = va_arg(options, int);
+
 	return _putchar(c);
 }
 
 int print_str(va_list options)
 {
-	char *str = va_arg(optins, char *);
 	int ch_count = 0;
+
+	char *str;
+
+	str = va_arg(options, char *);
+
 	while (*str)
 	{
 		ch_count += _putchar(*str);
 		str++;
 	}
-	return char_count;
+	return ch_count;
 }
 
-int print_percent()
+int print_percent(void)
 {
 	return _putchar('%');
 }
@@ -32,6 +38,7 @@ int print_percent()
 int _printf(const char *format, ...)
 {
 	va_list options;
+
 	int ch_count = 0;
 
 	va_start(options, format);
@@ -50,10 +57,10 @@ int _printf(const char *format, ...)
 			{
 				
 				case 'c':
-					ch_count += print_char(options);
+					ch_count += print_ch(options);
 					break;
 				case 's':
-					ch_count += print_string(options);
+					ch_count += print_str(options);
 					break;
 				case '%':
 					ch_count += print_percent();
@@ -74,17 +81,3 @@ int _printf(const char *format, ...)
 	va_end(options);
 	return ((ch_count));
 }
-
-/**
- * print_ch - prints a chaarcter
- * @options: a va_list containing charcter to print
- *
- * Return: the number of characters to ptint
- n*/
-
-/**
- * print_str -  a function that prints a string
- * @options: a va_list containing strings to print
- *
- * Return: the number of character
- */
