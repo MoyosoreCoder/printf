@@ -1,15 +1,5 @@
 #include "main.h"
 /**
- * _putchar - a fuction that writes a character to stdout
- * @c: the character to write
- * Return: on success, the number of character written
- * On error, -1 is returrned, errno is set appropriately
- */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-/**
  * print_ch - function that prints character
  * @options: a va_list containing arguments
  *
@@ -18,6 +8,7 @@ int _putchar(char c)
 int print_ch(va_list options)
 {
 	char c;
+
 	c = va_arg(options, int);
 
 	return (_putchar(c));
@@ -44,8 +35,31 @@ int print_str(va_list options)
 	return (ch_count);
 }
 /**
- * print_percent - prints percent
- * Return: the numbers of charcters printed on the screen
+ * process_specifiers - this process the specifiers individually
+ * @format: the formatted specifier
+ * @options: the arguments in a va_list
+ * Return: the function that prints each format specifier
+*/
+int process_specifiers(const char *format, va_list options)
+{
+	switch (*format)
+	{
+		case 'c':
+			return (print_ch(options));
+		case 's':
+			return (print_str(options));
+		case '%':
+			return (print_percent());
+		default:
+			_putchar('%');
+			_putchar(*format);
+			return (2);
+	}
+}
+/**
+ * print_percent - prints percent specifier
+ *
+ * Return: the charcter
  */
 int print_percent(void)
 {
@@ -61,34 +75,19 @@ int _printf(const char *format, ...)
 	int ch_count = 0;
 
 	va_list options;
+
 	va_start(options, format);
 
 	while (*format)
 	{
-		if (*format == '%')
+		if (*format  == '%')
 		{
 			format++;
-
 			if (*format == '\0')
 			{
 				break;
 			}
-			switch (*format)
-			{
-				case 'c':
-					ch_count += print_ch(options);
-					break;
-				case 's':
-					ch_count += print_str(options);
-					break;
-				case '%':
-					ch_count += print_percent();
-					break;
-				default:
-					_putchar('%');
-					_putchar(*format);
-					ch_count += 2;
-			}
+			ch_count = process_specifiers(format, options);
 		}
 		else
 		{
@@ -98,4 +97,5 @@ int _printf(const char *format, ...)
 	}
 	va_end(options);
 	return (ch_count);
+
 }
