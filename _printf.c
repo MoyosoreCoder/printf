@@ -35,28 +35,6 @@ int print_str(va_list options)
 	return (ch_count);
 }
 /**
- * process_specifiers - this process the specifiers individually
- * @format: the formatted specifier
- * @options: the arguments in a va_list
- * Return: the function that prints each format specifier
-*/
-int process_specifiers(const char *format, va_list options)
-{
-	switch (*format)
-	{
-		case 'c':
-			return (print_ch(options));
-		case 's':
-			return (print_str(options));
-		case '%':
-			return (print_percent());
-		default:
-			_putchar('%');
-			_putchar(*format);
-			return (2);
-	}
-}
-/**
  * print_percent - prints percent specifier
  *
  * Return: the charcter
@@ -68,7 +46,7 @@ int print_percent(void)
 /**
  * _printf - function that prints formatted string
  * @format: arguments containing different format specifier
- * Return: the number of characters printed excluding the null byte
+ * Return: the number of characters printed
  */
 int _printf(const char *format, ...)
 {
@@ -87,7 +65,22 @@ int _printf(const char *format, ...)
 			{
 				break;
 			}
-			ch_count = process_specifiers(format, options);
+			switch (*format)
+			{
+				case 'c':
+					ch_count += print_ch(options);
+					break;
+				case 's':
+					ch_count += print_str(options);
+					break;
+				case '%':
+					ch_count += print_percent();
+					break;
+				default:
+					_putchar('%');
+					_putchar(*format);
+					ch_count += 2;
+			}
 		}
 		else
 		{
@@ -97,5 +90,4 @@ int _printf(const char *format, ...)
 	}
 	va_end(options);
 	return (ch_count);
-
 }
