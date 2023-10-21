@@ -1,29 +1,31 @@
-#include
-#include ""
+#include "main.h"
 
-int _putchar(char c)
-{
-	return write(1, &c, 1);
-}
-
+/**
+ * print_intg - a function that prints format %d and %i
+ * @options: va_list parameter
+ *
+ * Return: the number of count
+ */
 int print_intg(va_list options)
 {
-	int num = va_arg(options, int);
-	int char_count = 0;
+	char digits[10];
+
+	int i = 0;
+
+	int ch_count = 0;
+	int num;
+
+	num = va_arg(options, int);
 
 	if (num < 0)
 	{
-		_putchar('_');
-		char_count++;
+		_putchar('-');
+		ch_count++;
 		num = -num;
 	}
-
-	char digits [10];
-	int i = 0;
-
 	if (num == 0)
 	{
-		char_count += _putchar('0');
+		ch_count += _putchar('0');
 	}
 	else
 	{
@@ -35,25 +37,10 @@ int print_intg(va_list options)
 		}
 		while (i > 0)
 		{
-			char_count += _putchar(digits[i - 1])
+			ch_count += _putchar(digits[i - 1]);
 				i--;
 		}
 	}
 
-	return char_count;
+	return (ch_count);
 }
-
-int _printf(const char *format, ...)
-{
-	va_list options;
-	va_start(options, format);
-
-	int char_count = 0;
-
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '\0')
-			{
