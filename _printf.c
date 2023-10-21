@@ -1,97 +1,63 @@
-#include "main.h
+#include "main.h"
+
+void print_buf(char buff[], int *buf_ind);
+
 /**
- * print_ch - function that prints character
- * @options: a va_list containing arguments
+ * _printf - function that prints formatted strings
+ * @format: va list parameter
  *
- * Return: the number of charcters
- */
-int print_ch(va_list options)
-{
-	char c;
-
-	c = va_arg(options, int);
-
-	return (_putchar(c));
-}
-/**
- * print_str - a function that prints a string
- * @options: a va_list containing arguments
- *
- * Return: the numbers of characters
- */
-int print_str(va_list options)
-{
-	char *str;
-
-	int ch_count = 0;
-
-	str = va_arg(options, char *);
-
-	while (*str)
-	{
-		ch_count += _putchar(*str);
-		str++;
-	}
-	return (ch_count);
-}
-/**
- * print_percent - prints percent specifier
- *
- * Return: the charcter
- */
-int print_percent(void)
-{
-	return (_putchar('%'));
-}
-/**
- * _printf - function that prints formatted string
- * @format: arguments containing different format specifier
- * Return: the number of characters printed
+ * Return: the number of count
  */
 int _printf(const char *format, ...)
 {
-	int ch_count = 0;
-
+	int i; print = 0; printed_ch = 0;
+	int flags, width, precision, size, buf_ind = 0;
 	va_list options;
+	char buffer(BUFF_SIZE);
 
-	va_start(options, format);
-
-	while (*format)
+	if (*format == NULL)
 	{
-		if (*format  == '%')
-		{
-			format++;
-			if (*format == '\0')
+		return (- 1);
+
+		va_start(options, format);
+
+		for (i = 0; format && format[i] != '\0'; i++)
+			if (format[i] != '%')
 			{
-				break;
+				buffer[buf_ind++] = format[i];
+				if (buf_ind == BUFF_SIZE)
+					print_buffer(buffer, &buf_ind);
+				printed_ch++;
 			}
-			switch (*format)
+			else
 			{
-				case 'c':
-					ch_count += print_ch(options);
-					break;
-				case 's':
-					ch_count += print_str(options);
-					break;
-				case '%':
-					ch_count += print_percent();
-					break;
-				case 'd':
-				case 'i':
-					ch_count += print_intg(options);
-					break;
-				default:
-					_putchar('%');
-					_putchar(*format);
-					ch_count += 2;
+				print_buffer(buffer,  &buf_ind);
+				flags = get_flags(format, &i);
+				width = get_width(format, &i, options);
+				precision = get_precision(format, &i, options);
+				size = get_size(format, &i);
+				++i;
+				print = handle_printing(format, &i, options, buffer, flags, width, precision, size);
+				if (print == -1)
+					return (-1);
+				print_ch += print;
 			}
-		}
-		else
-		{
-			ch_count += _putchar(*format);
-		}
-		format++;
 	}
+	print_buffer(buffer, &buf_ind);
+
 	va_end(options);
-	return (ch_count);
+
+	return (print_ch);
 }
+/**
+ * print_buffer - prints the contenets of the buffer if it exist
+ * @buf_ind: index at whichto add next char
+ * @buffer: array of characters
+ */
+void print_buffer(char buffer[], int *buf_ind)
+{
+	if (*buf_ind > 0)
+		write (1, &buffer[0], *buf_ind);
+	*buf_ind = 0;
+}
+
