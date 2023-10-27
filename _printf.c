@@ -37,7 +37,7 @@ int print_str(va_list options)
 /**
  * print_percent - prints percent specifier
  *
- * Return: the charcter
+ * Return: the charcter printed to stdout
  */
 int print_percent(void)
 {
